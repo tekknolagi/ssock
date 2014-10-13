@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "ssock/ssock.h"
+#include "ssock/sserv.h"
 
 void interrupt_handler (int sig) {
   puts("Interrupted.");
@@ -12,20 +13,11 @@ void interrupt_handler (int sig) {
 }
 
 int main () {
-  ssock_t sock;
-  if (!ssock_init(&sock, 1024)) return 1;
-  if (!ssock_bind(&sock, 15002)) return 2;
-  if (!ssock_listen(&sock)) return 3;
-
   signal(SIGINT, interrupt_handler);
 
-  while (true) {
-    if (!ssock_accept(&sock)) return 4;
+  ssock_t sock;
+  if (sserv_init(&sock, 15002) != SSERV_OK) return 1;
+  if (sserv_serve(&sock) != SSERV_OK) return 2;
 
-    ssock_recv(&sock);
-    ssock_write(&sock, "hello, world!\n\0");
-    ssock_close(&sock, 1);
-  }
-
-  ssock_close(&sock, 2);
+  return 0;
 }
