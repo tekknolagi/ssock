@@ -4,7 +4,7 @@
 
 #include "ssock.h"
 
-bool sock_init (sock_t *sock, int bufsize) {
+bool ssock_init (ssock_t *sock, int bufsize) {
   sock->socket = socket(AF_INET, SOCK_STREAM, 0);
   bool success = sock->socket > 0;
   if (success) {
@@ -16,7 +16,7 @@ bool sock_init (sock_t *sock, int bufsize) {
   return success;
 }
 
-bool sock_bind (sock_t *sock, int port) {
+bool ssock_bind (ssock_t *sock, int port) {
   sock->address.sin_family = AF_INET;
   sock->address.sin_addr.s_addr = INADDR_ANY;
   sock->address.sin_port = htons(port);
@@ -25,25 +25,25 @@ bool sock_bind (sock_t *sock, int port) {
 	      sizeof sock->address) == 0;
 }
 
-bool sock_listen (sock_t *sock) {
+bool ssock_listen (ssock_t *sock) {
   return listen(sock->socket, 10) == 0;
 }
 
-bool sock_accept (sock_t *sock) {
+bool ssock_accept (ssock_t *sock) {
   sock->new_socket = accept(sock->socket, (struct sockaddr *) &sock->address,
 			    &sock->addrlen);
   return sock->new_socket > 0;
 }
 
-void sock_recv (sock_t *sock) {
+void ssock_recv (ssock_t *sock) {
   recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
 }
 
-void sock_write (sock_t *sock, char *msg) {
+void ssock_write (ssock_t *sock, char *msg) {
   write(sock->new_socket, msg, strlen(msg));
 }
 
-void sock_close (sock_t *sock, int which) {
+void ssock_close (ssock_t *sock, int which) {
   if (which == 1)
     close(sock->new_socket);
   else if (which == 2) {

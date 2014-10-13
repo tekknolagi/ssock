@@ -6,20 +6,20 @@
 
 typedef enum { false, true } bool;
 
-typedef struct sock_s {
+typedef struct ssock_s {
   int socket, new_socket;
   struct sockaddr_in address;
   socklen_t addrlen;
 
   int bufsize;
   char *buffer;
-} sock_t;
+} ssock_t;
 
-bool sock_init (sock_t *, int bufsize);
-bool sock_bind (sock_t *, int port);
-bool sock_listen (sock_t *);
-bool sock_accept (sock_t *);
+bool ssock_init (ssock_t *, int bufsize);
+bool ssock_bind (ssock_t *, int port);
+bool ssock_listen (ssock_t *);
+bool ssock_accept (ssock_t *);
 
-void sock_recv (sock_t *);
-void sock_write (sock_t *, char *msg);
-void sock_close (sock_t *, int which);
+void ssock_recv (ssock_t *);
+void ssock_write (ssock_t *, char *msg);
+void ssock_close (ssock_t *, int which);
