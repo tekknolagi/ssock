@@ -7,6 +7,7 @@
 #include "ssock/ssock.h"
 
 void interrupt_handler (int sig) {
+  puts("Interrupted.");
   exit(5);
 }
 
