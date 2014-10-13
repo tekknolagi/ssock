@@ -4,9 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "ssock.h"
-
-#define p(x) puts(#x)
+#include "ssock/ssock.h"
 
 void interrupt_handler (int sig) {
   exit(5);
