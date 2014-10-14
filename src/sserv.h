@@ -11,7 +11,9 @@ typedef enum {
   SSERV_ACCEPTF
 } sserv_status_t;
 
+typedef char * (* sserv_func_t)(ssock_t *);
+
 sserv_status_t sserv_init (ssock_t *, int port);
-sserv_status_t sserv_serve (ssock_t *);
+sserv_status_t sserv_serve (ssock_t *, sserv_func_t);
 
 #endif

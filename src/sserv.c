@@ -20,13 +20,13 @@ sserv_status_t sserv_init (ssock_t * sock, int port) {
   return SSERV_OK;
 }
 
-sserv_status_t sserv_serve (ssock_t * sock) {
+sserv_status_t sserv_serve (ssock_t * sock, sserv_func_t f) {
   while (true) {
     if (!ssock_accept(sock))
       return SSERV_ACCEPTF;
 
     ssock_recv(sock);
-    ssock_write(sock, "hello, world!\n");
+    ssock_write(sock, f(sock));
     ssock_close(sock, 1);
   }
 
