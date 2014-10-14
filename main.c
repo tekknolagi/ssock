@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
+#include <arpa/inet.h>
 
 #include "ssock/ssock.h"
 #include "ssock/sserv.h"
@@ -17,11 +18,8 @@ char *mirror (ssock_t *sock) {
 }
 
 char *yourip (ssock_t *sock) {
-  snprintf(sock->buffer, 17, "%d.%d.%d.%d\n",
-	   (int) (sock->address.sin_addr.s_addr & 0xFF),
-	   (int) ((sock->address.sin_addr.s_addr & 0xFF00) >> 8),
-	   (int) ((sock->address.sin_addr.s_addr & 0xFF0000) >> 16),
-	   (int) ((sock->address.sin_addr.s_addr & 0xFF000000) >> 24));
+  inet_ntop(AF_INET, &(sock->address.sin_addr.s_addr),
+	    sock->buffer, INET_ADDRSTRLEN);
 
   return sock->buffer;
 }
