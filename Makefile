@@ -15,7 +15,7 @@ all: build clean_objs
 build:
 	$(CC) -c $(CFLAGS) $(SRCS)
 	ar cr $(ARCHIVE) $(OBJS)
-	$(CC) $(CFLAGS) main.c $(ARCHIVE) -o $(PROG)
+	$(CC) -lc $(CFLAGS) main.c $(ARCHIVE) -o $(PROG)
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/include/$(PROJNAME)
