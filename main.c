@@ -12,7 +12,7 @@ void interrupt_handler (int sig) {
   exit(5);
 }
 
-char *hello (ssock_t *sock) {
+char *mirror (ssock_t *sock) {
   return sock->buffer;
 }
 
@@ -21,7 +21,7 @@ int main () {
 
   ssock_t sock;
   if (sserv_init(&sock, 15002) != SSERV_OK) return 1;
-  if (sserv_serve(&sock, hello) != SSERV_OK) return 2;
+  if (sserv_serve(&sock, mirror) != SSERV_OK) return 2;
 
   return 0;
 }
