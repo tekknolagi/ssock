@@ -13,7 +13,7 @@ void interrupt_handler (int sig) {
   exit(5);
 }
 
-char *mirror (ssock_t *sock) {
+char *cat (ssock_t *sock) {
   return sock->buffer;
 }
 
@@ -29,7 +29,7 @@ int main () {
 
   ssock_t sock;
   if (sserv_init(&sock, 15002) != SSERV_OK) return 1;
-  if (sserv_serve(&sock, yourip) != SSERV_OK) return 2;
+  if (sserv_serve(&sock, cat) != SSERV_OK) return 2;
 
   return 0;
 }
