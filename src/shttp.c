@@ -56,12 +56,15 @@ shttp_ctx_t *shttp_process_request (ssock_t *sock) {
 
   strncpy(ctx->route, route, routel);
 
-  //printf("%.*s %.*s\n", (int) methodl, method, (int) routel, route);
+  // placeholder
+  ctx->host = malloc(1);
+  if (!ctx->host) return NULL;
+
   return ctx;
 }
 
 void shttp_destroy_ctx (shttp_ctx_t *ctx) {
   free(ctx->route);
-  //free(ctx->host); // not implemented yet
+  free(ctx->host);
   free(ctx);
 }
