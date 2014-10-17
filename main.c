@@ -29,12 +29,25 @@ void interrupt_handler (int sig) {
 /*   return sock->buffer; */
 /* } */
 
+char *http (ssock_t *sock) {
+  shttp_ctx_t *ctx = shttp_process_request(sock);
+  if (!ctx) return NULL;
+
+  sock->response = calloc(strlen(ctx->route), sizeof *sock->response);
+  if (!sock->response) return NULL;
+
+  strncpy(sock->response, ctx->route, strlen(ctx->route));
+  shttp_destroy_ctx(ctx);
+
+  return sock->response;
+}
+
 int main () {
   signal(SIGINT, interrupt_handler);
 
   ssock_t sock;
-  if (sserv_init(&sock, 15002) != SSERV_OK) return 1;
-  if (sserv_serve(&sock, shttp_process_request) != SSERV_OK) return 2;
+  if (sserv_init(&sock, 15000) != SSERV_OK) return 1;
+  if (sserv_serve(&sock, http) != SSERV_OK) return 2;
 
   return 0;
 }
