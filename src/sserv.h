@@ -8,7 +8,8 @@ typedef enum {
   SSERV_INITF,
   SSERV_BINDF,
   SSERV_LISTENF,
-  SSERV_ACCEPTF
+  SSERV_ACCEPTF,
+  SSERV_RESPONDF
 } sserv_status_t;
 
 typedef char * (* sserv_func_t)(ssock_t *);
