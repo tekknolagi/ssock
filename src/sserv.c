@@ -8,7 +8,7 @@
 #include "ssock.h"
 #include "sserv.h"
 
-sserv_status_t sserv_init (ssock_t * sock, int port) {
+sserv_status_t sserv_init (ssock_t *sock, int port) {
   assert(sock != NULL);
   assert(port > 0);
 
@@ -24,7 +24,7 @@ sserv_status_t sserv_init (ssock_t * sock, int port) {
   return SSERV_OK;
 }
 
-sserv_status_t sserv_serve (ssock_t * sock, sserv_func_t f) {
+sserv_status_t sserv_serve (ssock_t *sock, sserv_func_t f) {
   assert(sock != NULL);
   assert(f != NULL);
 
