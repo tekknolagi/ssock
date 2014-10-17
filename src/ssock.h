@@ -16,6 +16,7 @@ typedef struct ssock_s {
 
   int bufsize;
   char *buffer;
+  char *response;
 } ssock_t;
 
 bool ssock_init (ssock_t *, int bufsize);
