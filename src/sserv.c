@@ -2,12 +2,16 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <assert.h>
 #include <string.h>
 
 #include "ssock.h"
 #include "sserv.h"
 
 sserv_status_t sserv_init (ssock_t * sock, int port) {
+  assert(sock != NULL);
+  assert(port > 0);
+
   if (!ssock_init(sock, 1024))
     return SSERV_INITF;
 
@@ -21,6 +25,9 @@ sserv_status_t sserv_init (ssock_t * sock, int port) {
 }
 
 sserv_status_t sserv_serve (ssock_t * sock, sserv_func_t f) {
+  assert(sock != NULL);
+  assert(f != NULL);
+
   while (true) {
     if (!ssock_accept(sock))
       return SSERV_ACCEPTF;
