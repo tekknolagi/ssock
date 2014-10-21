@@ -35,9 +35,9 @@
  * SUCH DAMAGE.
  */
 
+#include "strnstr.h"
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD: src/lib/libc/string/strnstr.c,v 1.2 2001/11/07 19:55:16 obrien Exp $");
-
 #include <string.h>
 
 /*
