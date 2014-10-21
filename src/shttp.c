@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "lib/strnstr.h"
 #include "shttp.h"
 
 /*
