@@ -14,24 +14,26 @@ void interrupt_handler (int sig) {
   exit(5);
 }
 
-char *cat (ssock_t *sock) {
+char *cat (void *sock) {
   if (!sock) return NULL;
+  ssock_t *s = (ssock_t *) sock;
 
-  return sock->buffer;
+  return s->buffer;
 }
 
 int main () {
   signal(SIGINT, interrupt_handler);
 
-  ssock_t sock;
-  sserv_settings_t settings = {
-    .port = 15000,
-    .bufsize = 1024,
-    .backlog = 10
-  };
+  ssock_t sock = {
+    .settings = {
+      .port = 15000,
+      .bufsize = 1024,
+      .backlog = 10,
+      .f = cat
+    }};
 
-  if (sserv_init(&sock, settings) != SSERV_OK) return 1;
-  if (sserv_serve(&sock, cat) != SSERV_OK) return 2;
+  if (sserv_init(&sock) != SSERV_OK) return 1;
+  if (sserv_serve(&sock) != SSERV_OK) return 2;
 
   return 0;
 }

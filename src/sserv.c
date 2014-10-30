@@ -8,24 +8,24 @@
 #include "ssock.h"
 #include "sserv.h"
 
-sserv_status_t sserv_init (ssock_t *sock, sserv_settings_t settings) {
+sserv_status_t sserv_init (ssock_t *sock) {
   assert(sock != NULL);
 
-  if (!ssock_init(sock, settings.bufsize))
+  if (!ssock_init(sock))
     return SSERV_INITF;
 
-  if (!ssock_bind(sock, settings.port))
+  if (!ssock_bind(sock))
     return SSERV_BINDF;
 
-  if (!ssock_listen(sock, settings.backlog))
+  if (!ssock_listen(sock))
     return SSERV_LISTENF;
 
   return SSERV_OK;
 }
 
-sserv_status_t sserv_serve (ssock_t *sock, sserv_func_t f) {
+sserv_status_t sserv_serve (ssock_t *sock) {
   assert(sock != NULL);
-  assert(f != NULL);
+  assert(sock->settings.f != NULL);
 
   while (true) {
     if (!ssock_accept(sock))
@@ -33,7 +33,7 @@ sserv_status_t sserv_serve (ssock_t *sock, sserv_func_t f) {
 
     ssock_recv(sock);
 
-    char *resp = f(sock);
+    char *resp = sock->settings.f(sock);
     ssock_write(sock, resp ? resp : "no.\n");
     ssock_close(sock, 1);
   }
