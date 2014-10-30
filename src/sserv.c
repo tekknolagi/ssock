@@ -36,7 +36,7 @@ sserv_status_t sserv_serve (ssock_t *sock, sserv_func_t f) {
     ssock_recv(sock);
 
     char *resp = f(sock);
-    ssock_write(sock, resp ? resp : "Poorly formed HTTP request.\n");
+    ssock_write(sock, resp ? resp : "no.\n");
     ssock_close(sock, 1);
   }
 
