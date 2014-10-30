@@ -7,7 +7,6 @@
 
 #include "ssock/ssock.h"
 #include "ssock/sserv.h"
-#include "ssock/shttp.h"
 
 void interrupt_handler (int sig) {
   puts("Interrupted.");
