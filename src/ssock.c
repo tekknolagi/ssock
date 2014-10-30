@@ -25,8 +25,8 @@ bool ssock_bind (ssock_t *sock, int port) {
 	      sizeof sock->address) == 0;
 }
 
-bool ssock_listen (ssock_t *sock) {
-  return listen(sock->socket, 10) == 0;
+bool ssock_listen (ssock_t *sock, int backlog) {
+  return listen(sock->socket, backlog) == 0;
 }
 
 bool ssock_accept (ssock_t *sock) {

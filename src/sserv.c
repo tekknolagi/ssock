@@ -8,17 +8,18 @@
 #include "ssock.h"
 #include "sserv.h"
 
-sserv_status_t sserv_init (ssock_t *sock, int port) {
+sserv_status_t sserv_init (ssock_t *sock, int port, int bufsize, int backlog) {
   assert(sock != NULL);
   assert(port > 0);
+  assert(bufsize > 0);
 
-  if (!ssock_init(sock, 1024))
+  if (!ssock_init(sock, bufsize))
     return SSERV_INITF;
 
   if (!ssock_bind(sock, port))
     return SSERV_BINDF;
 
-  if (!ssock_listen(sock))
+  if (!ssock_listen(sock, backlog))
     return SSERV_LISTENF;
 
   return SSERV_OK;

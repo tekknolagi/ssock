@@ -14,7 +14,7 @@ typedef enum {
 
 typedef char * (* sserv_func_t)(ssock_t *);
 
-sserv_status_t sserv_init (ssock_t *, int port);
+sserv_status_t sserv_init (ssock_t *, int port, int bufsize, int backlog);
 sserv_status_t sserv_serve (ssock_t *, sserv_func_t);
 
 #endif

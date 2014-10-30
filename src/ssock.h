@@ -21,7 +21,7 @@ typedef struct ssock_s {
 
 bool ssock_init (ssock_t *, int bufsize);
 bool ssock_bind (ssock_t *, int port);
-bool ssock_listen (ssock_t *);
+bool ssock_listen (ssock_t *, int backlog);
 bool ssock_accept (ssock_t *);
 void ssock_recv (ssock_t *);
 void ssock_write (ssock_t *, char *msg);
