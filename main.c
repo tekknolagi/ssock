@@ -24,7 +24,13 @@ int main () {
   signal(SIGINT, interrupt_handler);
 
   ssock_t sock;
-  if (sserv_init(&sock, 15000, 1024, 10) != SSERV_OK) return 1;
+  sserv_settings_t settings = {
+    .port = 15000,
+    .bufsize = 1024,
+    .backlog = 10
+  };
+
+  if (sserv_init(&sock, settings) != SSERV_OK) return 1;
   if (sserv_serve(&sock, cat) != SSERV_OK) return 2;
 
   return 0;

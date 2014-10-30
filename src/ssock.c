@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "ssock.h"
 
 bool ssock_init (ssock_t *sock, int bufsize) {
+  assert(sock != NULL);
+  assert(bufsize > 0);
+
   sock->socket = socket(AF_INET, SOCK_STREAM, 0);
   bool success = sock->socket > 0;
   if (success) {
@@ -17,6 +21,8 @@ bool ssock_init (ssock_t *sock, int bufsize) {
 }
 
 bool ssock_bind (ssock_t *sock, int port) {
+  assert(port > 0);
+
   sock->address.sin_family = AF_INET;
   sock->address.sin_addr.s_addr = INADDR_ANY;
   sock->address.sin_port = htons(port);
@@ -26,6 +32,8 @@ bool ssock_bind (ssock_t *sock, int port) {
 }
 
 bool ssock_listen (ssock_t *sock, int backlog) {
+  assert(backlog > 0);
+
   return listen(sock->socket, backlog) == 0;
 }
 
