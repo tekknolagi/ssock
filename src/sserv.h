@@ -3,6 +3,7 @@
 
 #include "ssock.h"
 
+// keep track of errors in the simple serv
 typedef enum {
   SSERV_OK = 0,
   SSERV_INITF,
