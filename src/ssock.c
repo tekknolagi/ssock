@@ -37,6 +37,17 @@ bool ssock_bind (ssock_t *sock) {
 		sizeof sock->settings.af_inet.address) == 0;
     break;
   }
+  case AF_UNIX: {
+    assert(sock->settings.af_unix.path != NULL);
+
+    sock->settings.af_unix.address.sun_family = AF_UNIX;
+    unlink(sock->settings.af_unix.address.sun_path);
+
+    return bind(sock->socket, (struct sockaddr *) &sock->settings.af_unix.address,
+		sizeof sock->settings.af_unix.address) == 0;
+
+    break;
+  }
   default: {
     printf("BAD SOCK TYPE.\n");
     exit(1);
@@ -62,11 +73,16 @@ bool ssock_accept (ssock_t *sock) {
 			      &sock->settings.af_inet.addrlen);
     break;
   }
-  default: {
+  case AF_UNIX: {
     sock->new_socket = accept(sock->socket, NULL, NULL);
     break;
   }
+  default: {
+    printf("BAD ACCEPT.\n");
+    break;
   }
+  }
+
   return sock->new_socket > 0;
 }
 
