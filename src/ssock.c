@@ -95,18 +95,18 @@ bool ssock_accept (ssock_t *sock) {
 }
 
 // This function is sock-type agnostic.
-void ssock_recv (ssock_t *sock) {
+ssize_t ssock_recv (ssock_t *sock) {
   assert(sock != NULL);
 
-  recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
+  return recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
 }
 
 // This function is sock-type agnostic.
-void ssock_write (ssock_t *sock, char *msg) {
+ssize_t ssock_write (ssock_t *sock, char *msg) {
   assert(sock != NULL);
   assert(msg != NULL);
 
-  write(sock->new_socket, msg, strlen(msg));
+  return write(sock->new_socket, msg, strlen(msg));
 }
 
 // This function is sock-type agnostic.

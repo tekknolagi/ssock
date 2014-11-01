@@ -48,8 +48,8 @@ bool ssock_init (ssock_t *);
 bool ssock_bind (ssock_t *);
 bool ssock_listen (ssock_t *);
 bool ssock_accept (ssock_t *);
-void ssock_recv (ssock_t *);
-void ssock_write (ssock_t *, char *msg);
+ssize_t ssock_recv (ssock_t *);
+ssize_t ssock_write (ssock_t *, char *msg);
 void ssock_close (ssock_t *, int which);
 
 #endif
