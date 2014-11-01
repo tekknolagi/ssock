@@ -31,6 +31,9 @@ sserv_status_t sserv_serve (ssock_t *sock) {
     ssock_recv(sock);
 
     char *resp = sock->f(sock);
+    // TODO: FIX
+    // Function returned NULL for some reason...
+    // Not sure how to address this.
     ssock_write(sock, resp ? resp : "no.\n");
     ssock_close(sock, 1);
   }
