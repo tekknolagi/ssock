@@ -20,7 +20,12 @@ char *cat (void *sock) {
   return s->buffer;
 }
 
-int main () {
+int main (int argc, char **argv) {
+  if (argc < 2) {
+    printf("Needs one argument: sock path.\n");
+    exit(1);
+  }
+
   signal(SIGINT, interrupt_handler);
 
   ssock_t sock = {
@@ -30,7 +35,7 @@ int main () {
     .f = cat,
 
     .settings.af_unix = {
-      .path = "my.sock"
+      .path = argv[1]
     }
   };
 
