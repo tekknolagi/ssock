@@ -8,21 +8,26 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+// simplicity on probably one or two functions
 typedef enum { false, true } bool;
 
+// yay for typedefs and function pointers
 typedef char * (* ssock_func_t)(void *);
 
+// only necessary for af_inet, so segmented
 typedef struct ssock_af_inet_settings_s {
   int port;
   struct sockaddr_in address;
   socklen_t addrlen;
 } ssock_af_inet_settings_t;
 
+// only necessary for af_unix, so segmented
 typedef struct ssock_af_unix_settings_s {
   struct sockaddr_un address;
   char *path;
 } ssock_af_unix_settings_t;
 
+// this can be seriously cleaned up probably
 typedef struct ssock_s {
   int socket, new_socket;
   int type;

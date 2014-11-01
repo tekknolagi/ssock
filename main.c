@@ -30,6 +30,8 @@ int main (int argc, char **argv) {
     exit(1);
   }
 
+  // have to debug Ctrl-C issue
+  // sometimes it does not exit
   signal(SIGINT, interrupt_handler);
 
   ssock_t sock = {
@@ -43,6 +45,7 @@ int main (int argc, char **argv) {
     }
   };
 
+  // some minor diagnostics about why it died
   if (sserv_init(&sock) != SSERV_OK) return 1;
   if (sserv_serve(&sock) != SSERV_OK) return 2;
 
