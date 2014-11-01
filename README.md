@@ -10,7 +10,10 @@ started easier. This is only a simple wrapper around the basic function calls.
 Surprisingly, yes! I tested with a browser and socat. This allows for arbitrary
 responses with functions that return `char *`.
 
-## How do I operate?
+Careful: I have no idea what machines or compilers this works with. OS X 10.10
+on Macbook Air right now with gcc/clang.
+
+## How do I work it?
 
 For AF_INET, just point a browser to `localhost:PORT`, where PORT is whatever
 you indicated.
