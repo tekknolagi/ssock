@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
+#include <assert.h>
 
-#include "src/ssock.h"
-#include "src/sserv.h"
+#include <ssock/ssock.h>
+#include <ssock/sserv.h>
 
 void interrupt_handler (int sig) {
   puts("Interrupted.");
