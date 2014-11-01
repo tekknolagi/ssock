@@ -56,6 +56,7 @@ bool ssock_bind (ssock_t *sock) {
   default: {
     printf("BAD SOCK TYPE.\n");
     return false;
+    break;
   }
   }
 }
@@ -84,7 +85,8 @@ bool ssock_accept (ssock_t *sock) {
     break;
   }
   default: {
-    printf("BAD ACCEPT.\n");
+    printf("BAD SOCK TYPE.\n");
+    return false;
     break;
   }
   }
