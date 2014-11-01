@@ -28,13 +28,16 @@ sserv_status_t sserv_serve (ssock_t *sock) {
     if (!ssock_accept(sock))
       return SSERV_ACCEPTF;
 
-    ssock_recv(sock);
+    ssize_t rcved = ssock_recv(sock);
+    printf("%lu bytes received.\n", rcved);
 
     char *resp = sock->f(sock);
     // TODO: FIX
     // Function returned NULL for some reason...
     // Not sure how to address this.
-    ssock_write(sock, resp ? resp : "no.\n");
+    ssize_t written = ssock_write(sock, resp ? resp : "No.\n");
+    printf("%lu bytes written.\n", written);
+
     ssock_close(sock, 1);
   }
 
