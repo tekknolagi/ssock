@@ -5,7 +5,7 @@
 
 #include "ssock.h"
 
-// any
+// This function is sock-type agnostic.
 bool ssock_init (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->bufsize > 0);
@@ -21,7 +21,7 @@ bool ssock_init (ssock_t *sock) {
   return success;
 }
 
-// specific
+// This function is NOT sock-type agnostic. I wish I could make it so.
 bool ssock_bind (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -58,7 +58,7 @@ bool ssock_bind (ssock_t *sock) {
   }
 }
 
-// any
+// This function is sock-type agnostic.
 bool ssock_listen (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->backlog > 0);
@@ -66,13 +66,14 @@ bool ssock_listen (ssock_t *sock) {
   return listen(sock->socket, sock->backlog) == 0;
 }
 
-// specific
+// This function is NOT sock-type agnostic. I wish I could make it so.
 bool ssock_accept (ssock_t *sock) {
   assert(sock != NULL);
 
   switch (sock->type) {
   case AF_INET: {
-    sock->new_socket = accept(sock->socket, (struct sockaddr *) &sock->settings.af_inet.address,
+    sock->new_socket = accept(sock->socket,
+			      (struct sockaddr *) &sock->settings.af_inet.address,
 			      &sock->settings.af_inet.addrlen);
     break;
   }
@@ -89,14 +90,14 @@ bool ssock_accept (ssock_t *sock) {
   return sock->new_socket > 0;
 }
 
-// any
+// This function is sock-type agnostic.
 void ssock_recv (ssock_t *sock) {
   assert(sock != NULL);
 
   recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
 }
 
-// any
+// This function is sock-type agnostic.
 void ssock_write (ssock_t *sock, char *msg) {
   assert(sock != NULL);
   assert(msg != NULL);
@@ -104,7 +105,7 @@ void ssock_write (ssock_t *sock, char *msg) {
   write(sock->new_socket, msg, strlen(msg));
 }
 
-// any
+// This function is sock-type agnostic.
 void ssock_close (ssock_t *sock, int which) {
   assert(sock != NULL);
 
