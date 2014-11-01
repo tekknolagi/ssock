@@ -37,6 +37,7 @@ sserv_status_t sserv_serve (ssock_t *sock) {
     // Not sure how to address this.
     ssize_t written = ssock_write(sock, resp ? resp : "No.\n");
     printf("%lu bytes written.\n", written);
+    printf("---\n");
 
     ssock_close(sock, 1);
   }
