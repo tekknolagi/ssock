@@ -11,9 +11,6 @@
 // simplicity on probably one or two functions
 typedef enum { false, true } bool;
 
-// yay for typedefs and function pointers
-typedef char * (* ssock_func_t)(void *);
-
 // only necessary for af_inet, so segmented
 typedef struct ssock_af_inet_settings_s {
   int port;
@@ -33,7 +30,7 @@ typedef struct ssock_s {
   int type;
 
   int backlog, bufsize;
-  ssock_func_t f;
+  char * (*f)(struct ssock_s *);
 
   union {
     ssock_af_inet_settings_t af_inet;
@@ -43,6 +40,9 @@ typedef struct ssock_s {
   char *buffer;
   char *response;
 } ssock_t;
+
+// yay for typedefs and function pointers
+typedef char * (* ssock_func_t)(ssock_t *);
 
 bool ssock_init (ssock_t *);
 bool ssock_bind (ssock_t *);

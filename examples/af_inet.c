@@ -11,14 +11,10 @@ void interrupt_handler (int sig) {
   exit(5);
 }
 
-char *cat (void *sock) {
+char *cat (ssock_t *sock) {
   assert(sock != NULL);
 
-  // cast because otherwise we have this weird circular
-  // fustercluck in the header
-  // - too tired to fix right now
-  ssock_t *s = (ssock_t *) sock;
-  return s->buffer;
+  return sock->buffer;
 }
 
 int main (int argc, char **argv) {
