@@ -24,13 +24,13 @@ int main () {
   signal(SIGINT, interrupt_handler);
 
   ssock_t sock = {
-    .type = AF_INET,
+    .type = AF_UNIX,
     .backlog = 10,
     .bufsize = 1024,
     .f = cat,
 
-    .settings.af_inet = {
-	.port = 15000
+    .settings.af_unix = {
+      .path = "my.sock"
     }
   };
 

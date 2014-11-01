@@ -41,6 +41,10 @@ bool ssock_bind (ssock_t *sock) {
     assert(sock->settings.af_unix.path != NULL);
 
     sock->settings.af_unix.address.sun_family = AF_UNIX;
+    strncpy(sock->settings.af_unix.address.sun_path,
+	    sock->settings.af_unix.path,
+	    strlen(sock->settings.af_unix.path));
+    printf("path: %s\n", sock->settings.af_unix.path);
     unlink(sock->settings.af_unix.address.sun_path);
 
     return bind(sock->socket, (struct sockaddr *) &sock->settings.af_unix.address,
@@ -50,7 +54,7 @@ bool ssock_bind (ssock_t *sock) {
   }
   default: {
     printf("BAD SOCK TYPE.\n");
-    exit(1);
+    return false;
   }
   }
 }
