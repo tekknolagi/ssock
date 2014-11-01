@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
+#include <assert.h>
 #include <arpa/inet.h>
 
 #include "src/ssock.h"
