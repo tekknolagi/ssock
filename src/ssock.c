@@ -7,12 +7,12 @@
 
 bool ssock_init (ssock_t *sock) {
   assert(sock != NULL);
-  assert(sock->settings.af_inet.bufsize > 0);
+  assert(sock->bufsize > 0);
 
   sock->socket = socket(sock->type, SOCK_STREAM, 0);
   bool success = sock->socket > 0;
   if (success) {
-    sock->buffer = calloc(sock->settings.af_inet.bufsize, sizeof *sock->buffer);
+    sock->buffer = calloc(sock->bufsize, sizeof *sock->buffer);
     if (!sock->buffer) return false;
   }
 
@@ -51,15 +51,24 @@ bool ssock_listen (ssock_t *sock) {
 bool ssock_accept (ssock_t *sock) {
   assert(sock != NULL);
 
-  sock->new_socket = accept(sock->socket, (struct sockaddr *) &sock->settings.af_inet.address,
-			    &sock->settings.af_inet.addrlen);
+  switch (sock->type) {
+  case AF_INET: {
+    sock->new_socket = accept(sock->socket, (struct sockaddr *) &sock->settings.af_inet.address,
+			      &sock->settings.af_inet.addrlen);
+    break;
+  }
+  default: {
+    sock->new_socket = accept(sock->socket, NULL, NULL);
+    break;
+  }
+  }
   return sock->new_socket > 0;
 }
 
 void ssock_recv (ssock_t *sock) {
   assert(sock != NULL);
 
-  recv(sock->new_socket, sock->buffer, sock->settings.af_inet.bufsize, 0);
+  recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
 }
 
 void ssock_write (ssock_t *sock, char *msg) {

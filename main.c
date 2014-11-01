@@ -26,9 +26,9 @@ int main () {
   ssock_t sock = {
     .type = AF_INET,
     .backlog = 10,
+    .bufsize = 1024,
     .settings.af_inet = {
 	.port = 15000,
-	.bufsize = 1024,
 	.f = cat
     }
   };

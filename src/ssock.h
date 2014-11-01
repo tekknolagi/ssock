@@ -12,7 +12,7 @@ typedef enum { false, true } bool;
 typedef char * (* ssock_func_t)(void *);
 
 typedef struct ssock_af_inet_settings_s {
-  int port, bufsize;
+  int port;
   struct sockaddr_in address;
   socklen_t addrlen;
   ssock_func_t f;
@@ -25,7 +25,7 @@ typedef struct ssock_unix_domain_settings_s {
 typedef struct ssock_s {
   int socket, new_socket;
   int type;
-  int backlog;
+  int backlog, bufsize;
 
   union {
     ssock_af_inet_settings_t af_inet;
