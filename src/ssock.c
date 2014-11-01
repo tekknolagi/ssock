@@ -5,12 +5,14 @@
 
 #include "ssock.h"
 
+// any
 bool ssock_init (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->bufsize > 0);
 
   sock->socket = socket(sock->type, SOCK_STREAM, 0);
   bool success = sock->socket > 0;
+
   if (success) {
     sock->buffer = calloc(sock->bufsize, sizeof *sock->buffer);
     if (!sock->buffer) return false;
@@ -19,6 +21,7 @@ bool ssock_init (ssock_t *sock) {
   return success;
 }
 
+// specific
 bool ssock_bind (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -41,6 +44,7 @@ bool ssock_bind (ssock_t *sock) {
   }
 }
 
+// any
 bool ssock_listen (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->backlog > 0);
@@ -48,6 +52,7 @@ bool ssock_listen (ssock_t *sock) {
   return listen(sock->socket, sock->backlog) == 0;
 }
 
+// specific
 bool ssock_accept (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -65,12 +70,14 @@ bool ssock_accept (ssock_t *sock) {
   return sock->new_socket > 0;
 }
 
+// any
 void ssock_recv (ssock_t *sock) {
   assert(sock != NULL);
 
   recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
 }
 
+// any
 void ssock_write (ssock_t *sock, char *msg) {
   assert(sock != NULL);
   assert(msg != NULL);
@@ -78,6 +85,7 @@ void ssock_write (ssock_t *sock, char *msg) {
   write(sock->new_socket, msg, strlen(msg));
 }
 
+// any
 void ssock_close (ssock_t *sock, int which) {
   assert(sock != NULL);
 

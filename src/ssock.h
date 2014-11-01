@@ -15,7 +15,6 @@ typedef struct ssock_af_inet_settings_s {
   int port;
   struct sockaddr_in address;
   socklen_t addrlen;
-  ssock_func_t f;
 } ssock_af_inet_settings_t;
 
 typedef struct ssock_unix_domain_settings_s {
@@ -25,7 +24,9 @@ typedef struct ssock_unix_domain_settings_s {
 typedef struct ssock_s {
   int socket, new_socket;
   int type;
+
   int backlog, bufsize;
+  ssock_func_t f;
 
   union {
     ssock_af_inet_settings_t af_inet;

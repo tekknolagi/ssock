@@ -27,9 +27,10 @@ int main () {
     .type = AF_INET,
     .backlog = 10,
     .bufsize = 1024,
+    .f = cat,
+
     .settings.af_inet = {
-	.port = 15000,
-	.f = cat
+	.port = 15000
     }
   };
 
