@@ -25,7 +25,7 @@ sserv_status_t sserv_init (ssock_t *sock) {
 
 sserv_status_t sserv_serve (ssock_t *sock) {
   assert(sock != NULL);
-  assert(sock->settings.f != NULL);
+  assert(sock->settings.af_inet.f != NULL);
 
   while (true) {
     if (!ssock_accept(sock))
@@ -33,7 +33,7 @@ sserv_status_t sserv_serve (ssock_t *sock) {
 
     ssock_recv(sock);
 
-    char *resp = sock->settings.f(sock);
+    char *resp = sock->settings.af_inet.f(sock);
     ssock_write(sock, resp ? resp : "no.\n");
     ssock_close(sock, 1);
   }

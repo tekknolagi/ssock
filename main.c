@@ -24,12 +24,14 @@ int main () {
   signal(SIGINT, interrupt_handler);
 
   ssock_t sock = {
-    .settings = {
-      .port = 15000,
-      .bufsize = 1024,
-      .backlog = 10,
-      .f = cat
-    }};
+    .type = AF_INET,
+    .settings.af_inet = {
+	.port = 15000,
+	.bufsize = 1024,
+	.backlog = 10,
+	.f = cat
+    }
+  };
 
   if (sserv_init(&sock) != SSERV_OK) return 1;
   if (sserv_serve(&sock) != SSERV_OK) return 2;
