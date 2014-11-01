@@ -14,7 +14,7 @@ void interrupt_handler (int sig) {
 }
 
 char *cat (void *sock) {
-  if (!sock) return NULL;
+  assert(sock != NULL);
 
   ssock_t *s = (ssock_t *) sock;
   return s->buffer;
