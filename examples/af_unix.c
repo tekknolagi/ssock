@@ -11,7 +11,7 @@ void interrupt_handler (int sig) {
   exit(5);
 }
 
-char *cat (void *sock) {
+char *cat (ssock_t *sock) {
   assert(sock != NULL);
 
   return sock->buffer;
