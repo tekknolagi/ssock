@@ -30,7 +30,7 @@ typedef struct ssock_s {
   int type;
 
   int backlog, bufsize;
-  char * (*f)(struct ssock_s *);
+  char * (* f)(struct ssock_s *);
 
   union {
     ssock_af_inet_settings_t af_inet;
