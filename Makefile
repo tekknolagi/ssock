@@ -4,7 +4,7 @@ NDEBUG ?=
 FLTO ?= 
 CFLAGS ?= -g3 -std=c99 -O3 $(FLTO) -Wall -Werror -Wno-unused-variable \
 	-Wno-format-security $(NDEBUG)
-SRCS = src/ssock.c src/sserv.c #src/shttp.c src/lib/strnstr.c
+SRCS = src/ssock.c src/sserv.c
 OBJS = *.o
 PROG = ssock.out
 PROJNAME = ssock
@@ -15,7 +15,7 @@ all: build clean_objs
 build:
 	$(CC) -c $(CFLAGS) $(SRCS)
 	ar cr $(ARCHIVE) $(OBJS)
-	$(CC) $(CFLAGS) main.c $(ARCHIVE) -o $(PROG)
+#	$(CC) $(CFLAGS) main.c $(ARCHIVE) -o $(PROG)
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/include/$(PROJNAME)
