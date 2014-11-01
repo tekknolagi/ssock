@@ -24,10 +24,9 @@ typedef struct ssock_unix_domain_settings_s {
 
 typedef struct ssock_s {
   int socket, new_socket;
-
   int type;
-
   int backlog;
+
   union {
     ssock_af_inet_settings_t af_inet;
     ssock_unix_domain_settings_t unix_domain;

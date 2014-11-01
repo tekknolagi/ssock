@@ -5,8 +5,8 @@
 #include <string.h>
 #include <arpa/inet.h>
 
-#include "ssock/ssock.h"
-#include "ssock/sserv.h"
+#include "src/ssock.h"
+#include "src/sserv.h"
 
 void interrupt_handler (int sig) {
   puts("Interrupted.");
@@ -25,13 +25,12 @@ int main () {
 
   ssock_t sock = {
     .type = AF_INET,
+    .backlog = 10,
     .settings.af_inet = {
 	.port = 15000,
 	.bufsize = 1024,
-	.backlog = 10,
 	.f = cat
-    },
-    .backlog = 10
+    }
   };
 
   if (sserv_init(&sock) != SSERV_OK) return 1;
