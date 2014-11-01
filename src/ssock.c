@@ -33,7 +33,8 @@ bool ssock_bind (ssock_t *sock) {
     sock->settings.af_inet.address.sin_addr.s_addr = INADDR_ANY;
     sock->settings.af_inet.address.sin_port = htons(sock->settings.af_inet.port);
 
-    return bind(sock->socket, (struct sockaddr *) &sock->settings.af_inet.address,
+    return bind(sock->socket,
+		(struct sockaddr *) &sock->settings.af_inet.address,
 		sizeof sock->settings.af_inet.address) == 0;
     break;
   }
@@ -46,7 +47,8 @@ bool ssock_bind (ssock_t *sock) {
 	    strlen(sock->settings.af_unix.path));
     unlink(sock->settings.af_unix.address.sun_path);
 
-    return bind(sock->socket, (struct sockaddr *) &sock->settings.af_unix.address,
+    return bind(sock->socket,
+		(struct sockaddr *) &sock->settings.af_unix.address,
 		sizeof sock->settings.af_unix.address) == 0;
 
     break;
