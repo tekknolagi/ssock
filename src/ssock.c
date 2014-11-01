@@ -9,7 +9,7 @@ bool ssock_init (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->settings.af_inet.bufsize > 0);
 
-  sock->socket = socket(AF_INET, SOCK_STREAM, 0);
+  sock->socket = socket(sock->type, SOCK_STREAM, 0);
   bool success = sock->socket > 0;
   if (success) {
     sock->buffer = calloc(sock->settings.af_inet.bufsize, sizeof *sock->buffer);
