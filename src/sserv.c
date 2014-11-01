@@ -38,6 +38,7 @@ sserv_status_t sserv_serve (ssock_t *sock) {
     ssock_close(sock, 1);
   }
 
+  // And I need to figure out why there are two sockets.
   ssock_close(sock, 2);
   return SSERV_OK;
 }
