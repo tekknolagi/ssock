@@ -11,7 +11,7 @@ Surprisingly, yes! I tested with a browser and socat. This allows for arbitrary
 responses with functions that return `char *`.
 
 Careful: I have no idea what machines or compilers this works with. OS X 10.10
-on Macbook Air right now with gcc/clang.
+on Macbook Air right now with gcc/clang. Tested on Arch Linux with gcc.
 
 ## How do I work it?
 
