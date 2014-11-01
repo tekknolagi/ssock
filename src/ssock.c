@@ -29,6 +29,7 @@ bool ssock_bind (ssock_t *sock) {
     sock->settings.af_inet.address.sin_family = AF_INET;
     sock->settings.af_inet.address.sin_addr.s_addr = INADDR_ANY;
     sock->settings.af_inet.address.sin_port = htons(sock->settings.af_inet.port);
+
     return bind(sock->socket, (struct sockaddr *) &sock->settings.af_inet.address,
 		sizeof sock->settings.af_inet.address) == 0;
     break;
@@ -42,9 +43,10 @@ bool ssock_bind (ssock_t *sock) {
 
 bool ssock_listen (ssock_t *sock) {
   assert(sock != NULL);
-  assert(sock->settings.af_inet.backlog > 0);
+  assert(sock->backlog > 0);
 
-  return listen(sock->socket, sock->settings.af_inet.backlog) == 0;
+  switch (sock->type)
+  return listen(sock->socket, sock->backlog) == 0;
 }
 
 bool ssock_accept (ssock_t *sock) {

@@ -30,7 +30,8 @@ int main () {
 	.bufsize = 1024,
 	.backlog = 10,
 	.f = cat
-    }
+    },
+    .backlog = 10
   };
 
   if (sserv_init(&sock) != SSERV_OK) return 1;
