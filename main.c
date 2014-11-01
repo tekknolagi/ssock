@@ -17,6 +17,9 @@ void interrupt_handler (int sig) {
 char *cat (void *sock) {
   assert(sock != NULL);
 
+  // cast because otherwise we have this weird circular
+  // fustercluck in the header
+  // - too tired to fix right now
   ssock_t *s = (ssock_t *) sock;
   return s->buffer;
 }
