@@ -45,7 +45,6 @@ bool ssock_listen (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->backlog > 0);
 
-  switch (sock->type)
   return listen(sock->socket, sock->backlog) == 0;
 }
 
