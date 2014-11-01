@@ -44,7 +44,6 @@ bool ssock_bind (ssock_t *sock) {
     strncpy(sock->settings.af_unix.address.sun_path,
 	    sock->settings.af_unix.path,
 	    strlen(sock->settings.af_unix.path));
-    printf("path: %s\n", sock->settings.af_unix.path);
     unlink(sock->settings.af_unix.address.sun_path);
 
     return bind(sock->socket, (struct sockaddr *) &sock->settings.af_unix.address,
