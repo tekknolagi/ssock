@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <inttypes.h>
 #include <signal.h>
 #include <assert.h>
 
@@ -28,6 +27,8 @@ int main (int argc, char **argv) {
   // sometimes it does not exit
   signal(SIGINT, interrupt_handler);
 
+  char *endptr;
+
   ssock_t sock = {
     .type = AF_INET,
     .backlog = 10,
@@ -35,7 +36,7 @@ int main (int argc, char **argv) {
     .f = cat,
 
     .settings.af_inet = {
-      .port = strtol(argv[1])
+      .port = strtol(argv[1], &endptr, 10)
     }
   };
 
