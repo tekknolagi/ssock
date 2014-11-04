@@ -8,6 +8,8 @@
 #include "ssock.h"
 #include "sserv.h"
 
+static void sserv_debug (size_t, size_t);
+
 // Simple error-checking and wrapper for ssock.
 sserv_status_t sserv_init (ssock_t *sock) {
   assert(sock != NULL);
@@ -28,16 +30,14 @@ sserv_status_t sserv_serve (ssock_t *sock) {
     if (!ssock_accept(sock))
       return SSERV_ACCEPTF;
 
-    ssize_t rcved = ssock_recv(sock);
-    printf("%lu bytes received.\n", rcved);
+    ssize_t received = ssock_recv(sock);
 
     char *resp = sock->f(sock);
     // TODO: FIX
     // Function returned NULL for some reason...
     // Not sure how to address this.
     ssize_t written = ssock_write(sock, resp ? resp : "No.\n");
-    printf("%lu bytes written.\n", written);
-    printf("---\n");
+    sserv_debug(received, written);
 
     ssock_close(sock, 1);
   }
@@ -45,4 +45,10 @@ sserv_status_t sserv_serve (ssock_t *sock) {
   // And I need to figure out why there are two sockets.
   ssock_close(sock, 2);
   return SSERV_OK;
+}
+
+static void sserv_debug (size_t received, size_t written) {
+    printf("%lu bytes received.\n", received);
+    printf("%lu bytes written.\n", written);
+    printf("---\n");
 }
