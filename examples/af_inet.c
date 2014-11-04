@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include <signal.h>
 #include <assert.h>
 
@@ -34,7 +35,7 @@ int main (int argc, char **argv) {
     .f = cat,
 
     .settings.af_inet = {
-      .port = atoi(argv[1])
+      .port = strtol(argv[1])
     }
   };
 
