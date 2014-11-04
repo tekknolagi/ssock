@@ -24,6 +24,16 @@ typedef struct ssock_af_unix_settings_s {
   char *path;
 } ssock_af_unix_settings_t;
 
+typedef struct ssock_settings_s {
+  struct sockaddr address;
+  socklen_t address_len;
+
+  union {
+    uint16_t port;
+    char *path;
+  };
+} ssock_settings_t;
+
 // this can be seriously cleaned up probably
 typedef struct ssock_s {
   int socket, new_socket;
@@ -32,10 +42,7 @@ typedef struct ssock_s {
   int backlog, bufsize;
   char * (* f)(struct ssock_s *);
 
-  union {
-    ssock_af_inet_settings_t af_inet;
-    ssock_af_unix_settings_t af_unix;
-  } settings;
+  ssock_settings_t settings;
 
   char *buffer;
   char *response;

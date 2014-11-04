@@ -33,9 +33,7 @@ int main (int argc, char **argv) {
     .bufsize = 1024,
     .f = cat,
 
-    .settings.af_unix = {
-      .path = argv[1]
-    }
+    .settings.path = argv[1]
   };
 
   // some minor diagnostics about why it died

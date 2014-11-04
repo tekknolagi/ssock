@@ -35,9 +35,7 @@ int main (int argc, char **argv) {
     .bufsize = 1024,
     .f = cat,
 
-    .settings.af_inet = {
-      .port = strtol(argv[1], &endptr, 10)
-    }
+    .settings.port = strtol(argv[1], &endptr, 10)
   };
 
   // some minor diagnostics about why it died

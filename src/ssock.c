@@ -27,31 +27,26 @@ bool ssock_bind (ssock_t *sock) {
 
   switch (sock->type) {
   case AF_INET: {
-    assert(sock->settings.af_inet.port > 0);
+    assert(sock->settings.port > 0);
 
-    sock->settings.af_inet.address.sin_family = AF_INET;
-    sock->settings.af_inet.address.sin_addr.s_addr = INADDR_ANY;
-    sock->settings.af_inet.address.sin_port = htons(sock->settings.af_inet.port);
+    struct sockaddr_in *sa = (struct sockaddr_in *) &sock->settings.address;
+    sa->sin_family = AF_INET;
+    sa->sin_addr.s_addr = INADDR_ANY;
+    sa->sin_port = htons(sock->settings.port);
 
-    return bind(sock->socket,
-		(struct sockaddr *) &sock->settings.af_inet.address,
-		sizeof sock->settings.af_inet.address) == 0;
-    break;
+    return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   case AF_UNIX: {
-    assert(sock->settings.af_unix.path != NULL);
+    assert(sock->settings.path != NULL);
+    size_t len_path = strlen(sock->settings.path);
+    size_t max_length = (len_path > 108) ? 108 : len_path;
 
-    sock->settings.af_unix.address.sun_family = AF_UNIX;
-    strncpy(sock->settings.af_unix.address.sun_path,
-	    sock->settings.af_unix.path,
-	    strlen(sock->settings.af_unix.path));
-    unlink(sock->settings.af_unix.address.sun_path);
+    struct sockaddr_un *sa = (struct sockaddr_un *) &sock->settings.address;
+    sa->sun_family = AF_UNIX;
+    strncpy(sa->sun_path, sock->settings.path, max_length);
+    unlink(sa->sun_path);
 
-    return bind(sock->socket,
-		(struct sockaddr *) &sock->settings.af_unix.address,
-		sizeof sock->settings.af_unix.address) == 0;
-
-    break;
+    return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   default: {
     printf("BAD SOCK TYPE.\n");
@@ -75,9 +70,10 @@ bool ssock_accept (ssock_t *sock) {
 
   switch (sock->type) {
   case AF_INET: {
+    struct sockaddr_in *sa = (struct sockaddr_in *) &sock->settings.address;
     sock->new_socket = accept(sock->socket,
-			      (struct sockaddr *) &sock->settings.af_inet.address,
-			      &sock->settings.af_inet.addrlen);
+			      (struct sockaddr *) sa,
+			      &sock->settings.address_len);
     break;
   }
   case AF_UNIX: {
