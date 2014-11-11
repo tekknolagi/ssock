@@ -11,19 +11,6 @@
 // simplicity on probably one or two functions
 typedef enum { false, true } bool;
 
-// only necessary for af_inet, so segmented
-typedef struct ssock_af_inet_settings_s {
-  int port;
-  struct sockaddr_in address;
-  socklen_t addrlen;
-} ssock_af_inet_settings_t;
-
-// only necessary for af_unix, so segmented
-typedef struct ssock_af_unix_settings_s {
-  struct sockaddr_un address;
-  char *path;
-} ssock_af_unix_settings_t;
-
 typedef struct ssock_settings_s {
   struct sockaddr address;
   socklen_t address_len;
