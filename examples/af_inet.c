@@ -6,16 +6,8 @@
 #include <ssock/ssock.h>
 #include <ssock/sserv.h>
 
-void interrupt_handler (int sig) {
-  puts("Interrupted.");
-  exit(5);
-}
-
-char *cat (ssock_t *sock) {
-  assert(sock != NULL);
-
-  return sock->buffer;
-}
+void interrupt_handler (int);
+char *cat (ssock_t *);
 
 int main (int argc, char **argv) {
   if (argc < 2) {
@@ -43,4 +35,15 @@ int main (int argc, char **argv) {
   if (sserv_serve(&sock) != SSERV_OK) return 2;
 
   return 0;
+}
+
+void interrupt_handler (int sig) {
+  puts("Interrupted.");
+  exit(5);
+}
+
+char *cat (ssock_t *sock) {
+  assert(sock != NULL);
+
+  return sock->buffer;
 }
