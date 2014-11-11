@@ -46,7 +46,6 @@ bool ssock_connect (ssock_t *);
 bool ssock_accept (ssock_t *);
 ssize_t ssock_recv (ssock_t *);
 ssize_t ssock_write (ssock_t *, char *msg);
-ssize_t ssock_read (ssock_t *);
 void ssock_close (ssock_t *, int which);
 
 #endif

@@ -138,13 +138,6 @@ ssize_t ssock_write (ssock_t *sock, char *msg) {
 }
 
 // This function is sock-type agnostic.
-ssize_t ssock_read (ssock_t *sock) {
-  assert(sock != NULL);
-
-  return read(sock->socket, sock->buffer, sock->bufsize);
-}
-
-// This function is sock-type agnostic.
 void ssock_close (ssock_t *sock, int which) {
   assert(sock != NULL);
 

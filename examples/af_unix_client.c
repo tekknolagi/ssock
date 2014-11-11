@@ -14,7 +14,7 @@ int main (int argc, char **argv) {
 
   ssock_t sock = {
     .type = AF_UNIX,
-    .bufsize = 1024,
+    .bufsize = 2,
 
     .settings.path = argv[1]
   };
