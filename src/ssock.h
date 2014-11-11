@@ -23,6 +23,7 @@ typedef struct ssock_settings_s {
 
 // this can be seriously cleaned up probably
 typedef struct ssock_s {
+  bool serving;
   int socket, new_socket;
   int type;
 

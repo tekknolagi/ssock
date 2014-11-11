@@ -26,7 +26,7 @@ sserv_status_t sserv_serve (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->f != NULL);
 
-  while (true) {
+  while (sock->serving) {
     if (!ssock_accept(sock))
       return SSERV_ACCEPTF;
 

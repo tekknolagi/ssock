@@ -18,6 +18,7 @@ bool ssock_init (ssock_t *sock) {
     if (!sock->buffer) return false;
   }
 
+  sock->serving = true;
   return success;
 }
 
