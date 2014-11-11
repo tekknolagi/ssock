@@ -23,7 +23,7 @@ int main (int argc, char **argv) {
   if (sclient_connect(&sock) != SCLIENT_OK) return 1;
   if (sclient_speak(&sock, "boo\n") != SCLIENT_OK) return 2;
 
-  //printf("--%s--", sock.buffer);
+  printf("--%s--", sock.buffer);
 
   sclient_close(&sock);
 
