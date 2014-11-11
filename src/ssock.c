@@ -52,7 +52,6 @@ bool ssock_bind (ssock_t *sock) {
   default: {
     printf("BAD SOCK TYPE.\n");
     return false;
-    break;
   }
   }
 }
@@ -63,6 +62,39 @@ bool ssock_listen (ssock_t *sock) {
   assert(sock->backlog > 0);
 
   return listen(sock->socket, sock->backlog) == 0;
+}
+
+bool ssock_connect (ssock_t *sock) {
+  assert(sock != NULL);
+
+  switch (sock->type) {
+  case AF_INET: {
+    assert(sock->settings.port > 0);
+
+    struct sockaddr_in *sa = (struct sockaddr_in *) &sock->settings.address;
+    sa->sin_family = AF_INET;
+    sa->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    sa->sin_port = htons(sock->settings.port);
+
+    return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
+  }
+  case AF_UNIX: {
+    assert(sock->settings.path != NULL);
+
+    size_t len_path = strlen(sock->settings.path);
+    size_t max_length = (len_path > 108) ? 108 : len_path;
+
+    struct sockaddr_un *sa = (struct sockaddr_un *) &sock->settings.address;
+    sa->sun_family = AF_UNIX;
+    strncpy(sa->sun_path, sock->settings.path, max_length);
+
+    return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
+  }
+  default: {
+    printf("BAD SOCK TYPE.\n");
+    return false;
+  }
+  }
 }
 
 // This function is NOT sock-type agnostic. I wish I could make it so.
@@ -104,6 +136,13 @@ ssize_t ssock_write (ssock_t *sock, char *msg) {
   assert(msg != NULL);
 
   return write(sock->new_socket, msg, strlen(msg));
+}
+
+// This function is sock-type agnostic.
+ssize_t ssock_read (ssock_t *sock) {
+  assert(sock != NULL);
+
+  return read(sock->socket, sock->buffer, sock->bufsize);
 }
 
 // This function is sock-type agnostic.

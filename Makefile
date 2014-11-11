@@ -4,7 +4,7 @@ NDEBUG ?=
 FLTO ?= 
 CFLAGS ?= -g3 -std=c99 -O3 $(FLTO) -Wall -Werror -Wno-unused-variable \
 	-Wno-format-security $(NDEBUG)
-SRCS = src/ssock.c src/sserv.c
+SRCS = src/ssock.c src/sserv.c src/sclient.c
 OBJS = *.o
 PROG = ssock.out
 PROJNAME = ssock
