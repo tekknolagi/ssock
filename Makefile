@@ -18,7 +18,7 @@ build:
 #	$(CC) $(CFLAGS) main.c $(ARCHIVE) -o $(PROG)
 
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/include/$(PROJNAME)
+	rm -r $(DESTDIR)$(PREFIX)/include/$(PROJNAME)
 	rm $(DESTDIR)$(PREFIX)/lib/$(ARCHIVE)
 
 install:
