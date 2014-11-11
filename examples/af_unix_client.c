@@ -22,9 +22,9 @@ int main (int argc, char **argv) {
 
   // some minor diagnostics about why it died
   if (sclient_connect(&sock) != SCLIENT_OK) return 1;
-  if (sclient_speak(&sock, "hello\n") != SCLIENT_OK) return 2;
+  if (sclient_speak(&sock, "boo\n") != SCLIENT_OK) return 2;
 
-  printf("%s\n", sock.buffer);
+  //printf("--%s--", sock.buffer);
 
   sclient_close(&sock);
 
