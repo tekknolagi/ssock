@@ -5,7 +5,7 @@ FLTO ?=
 CFLAGS ?= -g3 -std=c99 -O3 $(FLTO) -Wall -Werror -Wno-unused-variable \
 	-Wno-format-security $(NDEBUG)
 SRCS = src/ssock.c src/sserv.c src/sclient.c
-EXAMPLES = bin/af_inet.out bin/af_unix.out bin/af_unix_client.out
+EXAMPLES = bin/af_inet.out bin/af_unix.out bin/af_unix_client.out bin/one_time.out
 OBJS = *.o
 PROG = ssock.out
 PROJNAME = ssock
