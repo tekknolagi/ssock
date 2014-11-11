@@ -130,18 +130,25 @@ ssize_t ssock_recv (ssock_t *sock) {
 }
 
 // This function is sock-type agnostic.
-ssize_t ssock_read (ssock_t *sock) {
+ssize_t ssock_write (ssock_t *sock, char *msg) {
+  assert(sock != NULL);
+  assert(msg != NULL);
+
+  return write(sock->new_socket, msg, strlen(msg));
+}
+
+// This function is sock-type agnostic.
+ssize_t ssock_client_recv (ssock_t *sock) {
   assert(sock != NULL);
 
   return recv(sock->socket, sock->buffer, sock->bufsize, 0);
 }
 
 // This function is sock-type agnostic.
-ssize_t ssock_write (ssock_t *sock, char *msg) {
+ssize_t ssock_client_write (ssock_t *sock, char *msg) {
   assert(sock != NULL);
-  assert(msg != NULL);
 
-  return write(sock->new_socket, msg, strlen(msg));
+  return write(sock->socket, msg, strlen(msg));
 }
 
 // This function is sock-type agnostic.

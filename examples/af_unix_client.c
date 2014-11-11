@@ -14,16 +14,16 @@ int main (int argc, char **argv) {
 
   ssock_t sock = {
     .type = AF_UNIX,
-    .bufsize = 2,
+    .bufsize = 1024,
 
     .settings.path = argv[1]
   };
 
   // some minor diagnostics about why it died
   if (sclient_connect(&sock) != SCLIENT_OK) return 1;
-  if (sclient_speak(&sock, "boo\n") != SCLIENT_OK) return 2;
+  if (sclient_speak(&sock, "boo") != SCLIENT_OK) return 2;
 
-  printf("--%s--", sock.buffer);
+  printf("--%s--\n", sock.buffer);
 
   sclient_close(&sock);
 

@@ -15,8 +15,8 @@ sclient_status_t sclient_connect (ssock_t *sock) {
 sclient_status_t sclient_speak (ssock_t *sock, char *msg) {
   assert(sock != NULL);
 
-  if (!ssock_write(sock, msg)) return SCLIENT_WRITEF;
-  if (!ssock_read(sock)) return SCLIENT_READF;
+  if (!ssock_client_write(sock, msg)) return SCLIENT_WRITEF;
+  if (!ssock_client_recv(sock)) return SCLIENT_READF;
 
   return SCLIENT_OK;
 }
