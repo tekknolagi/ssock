@@ -50,7 +50,7 @@ bool ssock_bind (ssock_t *sock) {
     return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   default: {
-    printf("BAD SOCK TYPE.\n");
+    puts("BAD SOCK TYPE.");
     return false;
   }
   }
@@ -91,7 +91,7 @@ bool ssock_connect (ssock_t *sock) {
     return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   default: {
-    printf("BAD SOCK TYPE.\n");
+    puts("BAD SOCK TYPE.");
     return false;
   }
   }
@@ -114,9 +114,8 @@ bool ssock_accept (ssock_t *sock) {
     break;
   }
   default: {
-    printf("BAD SOCK TYPE.\n");
+    puts("BAD SOCK TYPE.");
     return false;
-    break;
   }
   }
 
