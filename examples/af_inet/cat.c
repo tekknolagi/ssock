@@ -10,8 +10,8 @@ void interrupt_handler (int);
 char *cat (ssock_t *);
 
 int main (int argc, char **argv) {
-  if (argc < 2) {
-    printf("Needs one argument: port num.\n");
+  if (argc < 3) {
+    printf("Needs two arguments: addr, port num.\n");
     exit(1);
   }
 
@@ -27,7 +27,8 @@ int main (int argc, char **argv) {
     .bufsize = 1024,
     .f = cat,
 
-    .settings.port = strtol(argv[1], &endptr, 10)
+    .settings.inet.addr = argv[1],
+    .settings.inet.port = strtol(argv[2], &endptr, 10)
   };
 
   // some minor diagnostics about why it died

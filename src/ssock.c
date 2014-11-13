@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <arpa/inet.h>
 
 #include "ssock.h"
 
@@ -28,12 +29,12 @@ bool ssock_bind (ssock_t *sock) {
 
   switch (sock->type) {
   case AF_INET: {
-    assert(sock->settings.port > 0);
+    assert(sock->settings.inet.port > 0);
 
     struct sockaddr_in *sa = (struct sockaddr_in *) &sock->settings.address;
     sa->sin_family = AF_INET;
     sa->sin_addr.s_addr = INADDR_ANY;
-    sa->sin_port = htons(sock->settings.port);
+    sa->sin_port = htons(sock->settings.inet.port);
 
     return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
@@ -69,12 +70,13 @@ bool ssock_connect (ssock_t *sock) {
 
   switch (sock->type) {
   case AF_INET: {
-    assert(sock->settings.port > 0);
+    assert(sock->settings.inet.port > 0);
 
     struct sockaddr_in *sa = (struct sockaddr_in *) &sock->settings.address;
     sa->sin_family = AF_INET;
-    sa->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    sa->sin_port = htons(sock->settings.port);
+    // translate the IP from string form into int form
+    inet_pton(AF_INET, sock->settings.inet.addr, &(sa->sin_addr));
+    sa->sin_port = htons(sock->settings.inet.port);
 
     return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }

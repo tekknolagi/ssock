@@ -16,7 +16,11 @@ typedef struct ssock_settings_s {
   socklen_t address_len;
 
   union {
-    uint16_t port;
+    struct {
+      char *addr;
+      uint16_t port;
+    } inet;
+
     char *path;
   };
 } ssock_settings_t;
