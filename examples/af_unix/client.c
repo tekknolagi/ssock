@@ -16,7 +16,7 @@ int main (int argc, char **argv) {
     .type = AF_UNIX,
     .bufsize = 1024,
 
-    .settings.path = argv[1]
+    .settings.unix.path = argv[1]
   };
 
   // some minor diagnostics about why it died

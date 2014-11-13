@@ -21,7 +21,9 @@ typedef struct ssock_settings_s {
       uint16_t port;
     } inet;
 
-    char *path;
+    struct {
+      char *path;
+    } unix;
   };
 } ssock_settings_t;
 

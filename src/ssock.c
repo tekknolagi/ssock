@@ -39,13 +39,13 @@ bool ssock_bind (ssock_t *sock) {
     return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   case AF_UNIX: {
-    assert(sock->settings.path != NULL);
-    size_t len_path = strlen(sock->settings.path);
+    assert(sock->settings.unix.path != NULL);
+    size_t len_path = strlen(sock->settings.unix.path);
     size_t max_length = (len_path > 108) ? 108 : len_path;
 
     struct sockaddr_un *sa = (struct sockaddr_un *) &sock->settings.address;
     sa->sun_family = AF_UNIX;
-    strncpy(sa->sun_path, sock->settings.path, max_length);
+    strncpy(sa->sun_path, sock->settings.unix.path, max_length);
     unlink(sa->sun_path);
 
     return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
@@ -81,14 +81,14 @@ bool ssock_connect (ssock_t *sock) {
     return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   case AF_UNIX: {
-    assert(sock->settings.path != NULL);
+    assert(sock->settings.unix.path != NULL);
 
-    size_t len_path = strlen(sock->settings.path);
+    size_t len_path = strlen(sock->settings.unix.path);
     size_t max_length = (len_path > 108) ? 108 : len_path;
 
     struct sockaddr_un *sa = (struct sockaddr_un *) &sock->settings.address;
     sa->sun_family = AF_UNIX;
-    strncpy(sa->sun_path, sock->settings.path, max_length);
+    strncpy(sa->sun_path, sock->settings.unix.path, max_length);
 
     return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
