@@ -109,23 +109,18 @@ bool ssock_connect (ssock_t *sock) {
 bool ssock_accept (ssock_t *sock) {
   assert(sock != NULL);
 
-  switch (sock->domain) {
-  case AF_INET: {
-    struct sockaddr_in *sa = (struct sockaddr_in *) &sock->settings.address;
-    sock->new_socket = accept(sock->socket,
-			      (struct sockaddr *) sa,
-			      &sock->settings.address_len);
-    break;
-  }
-  case AF_UNIX: {
-    sock->new_socket = accept(sock->socket, NULL, NULL);
-    break;
-  }
-  default: {
-    puts("BAD SOCK DOMAIN.");
-    return false;
-  }
-  }
+  /*
+    Turns out this dramatically shortens the code. If AF_INET, accept() needs
+    an address and address length, but otherwise not. I used to have a switch
+    but that looked hideous.
+  */
+  struct sockaddr_in *sa =
+    (sock->domain == AF_INET)
+    ? (struct sockaddr_in *) &sock->settings.address
+    : NULL;
+
+  sock->new_socket =
+    accept(sock->socket, sa, sa ? &sock->settings.address_len : NULL);
 
   return sock->new_socket > 0;
 }
