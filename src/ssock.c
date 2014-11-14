@@ -35,6 +35,7 @@ bool ssock_bind (ssock_t *sock) {
     sa->sin_family = AF_INET;
     // translate the IP from string form into int form
     inet_pton(AF_INET, sock->settings.inet.addr, &(sa->sin_addr));
+    // translate port from host to network byte order
     sa->sin_port = htons(sock->settings.inet.port);
 
     return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
@@ -42,6 +43,7 @@ bool ssock_bind (ssock_t *sock) {
   case AF_UNIX: {
     assert(sock->settings.unix.path != NULL);
 
+    // truncate at 108 chars
     size_t len_path = strlen(sock->settings.unix.path);
     size_t max_length = (len_path > 108) ? 108 : len_path;
 
@@ -67,6 +69,7 @@ bool ssock_listen (ssock_t *sock) {
   return listen(sock->socket, sock->backlog) == 0;
 }
 
+// This function is NOT sock-domain agnostic. I wish I could make it so.
 bool ssock_connect (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -78,6 +81,7 @@ bool ssock_connect (ssock_t *sock) {
     sa->sin_family = AF_INET;
     // translate the IP from string form into int form
     inet_pton(AF_INET, sock->settings.inet.addr, &(sa->sin_addr));
+    // translate port from host to network byte order
     sa->sin_port = htons(sock->settings.inet.port);
 
     return connect(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
