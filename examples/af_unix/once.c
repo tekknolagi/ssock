@@ -15,7 +15,8 @@ int main (int argc, char **argv) {
   }
 
   ssock_t sock = {
-    .type = AF_UNIX,
+    .domain = AF_UNIX,
+    .type = SOCK_STREAM,
     .backlog = 10,
     .bufsize = 1024,
     .f = cat,

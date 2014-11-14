@@ -22,7 +22,8 @@ int main (int argc, char **argv) {
   char *endptr;
 
   ssock_t sock = {
-    .type = AF_INET,
+    .domain = AF_INET,
+    .type = SOCK_STREAM,
     .backlog = 10,
     .bufsize = 1024,
     .f = cat,

@@ -13,7 +13,8 @@ int main (int argc, char **argv) {
   }
 
   ssock_t sock = {
-    .type = AF_UNIX,
+    .domain = AF_UNIX,
+    .type = SOCK_STREAM,
     .bufsize = 1024,
 
     .settings.unix.path = argv[1]

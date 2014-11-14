@@ -31,7 +31,7 @@ typedef struct ssock_settings_s {
 typedef struct ssock_s {
   bool serving;
   int socket, new_socket;
-  int type;
+  int domain, type;
 
   int backlog, bufsize;
   char * (* f)(struct ssock_s *);
