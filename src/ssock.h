@@ -24,7 +24,7 @@ typedef struct ssock_settings_s {
     struct {
       char *path;
     } unix;
-  };
+  } type;
 } ssock_settings_t;
 
 // this can be seriously cleaned up probably
