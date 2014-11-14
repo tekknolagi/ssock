@@ -15,11 +15,14 @@ on Macbook Air right now with gcc/clang. Tested on Arch Linux with gcc.
 
 ## How do I work it?
 
+To build, run `make`. Then you can `make install`. If you want to link against
+it, use `-lssock`.
+
 For AF_INET, just point a browser to `localhost:PORT`, where PORT is whatever
 you indicated.
 
-For AF_UNIX, just [download and] run `socat` like so: `socat - UNIX-CONNECT:my.sock`.
-`socat` is the bee's knees.
+For AF_UNIX, just [download and] run `socat` like so: `socat -
+UNIX-CONNECT:my.sock`. `socat` is the bee's knees.
 
 ## How's the performance?
 
