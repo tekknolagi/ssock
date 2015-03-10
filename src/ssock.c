@@ -6,7 +6,6 @@
 
 #include "ssock.h"
 
-// This function is sock-domain agnostic.
 bool ssock_init (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->bufsize > 0);
@@ -23,7 +22,6 @@ bool ssock_init (ssock_t *sock) {
   return success;
 }
 
-// This function is NOT sock-domain agnostic. I wish I could make it so.
 bool ssock_bind (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -38,6 +36,8 @@ bool ssock_bind (ssock_t *sock) {
     // translate port from host to network byte order
     sa->sin_port = htons(sock->settings.inet.port);
 
+    int reuse = 1;
+    setsockopt(sock->socket, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof reuse);
     return bind(sock->socket, (struct sockaddr *) sa, sizeof *sa) == 0;
   }
   case AF_UNIX: {
@@ -61,15 +61,16 @@ bool ssock_bind (ssock_t *sock) {
   }
 }
 
-// This function is sock-domain agnostic.
 bool ssock_listen (ssock_t *sock) {
   assert(sock != NULL);
   assert(sock->backlog > 0);
 
-  return listen(sock->socket, sock->backlog) == 0;
+  if (sock->type == SOCK_STREAM)
+    return listen(sock->socket, sock->backlog) == 0;
+
+  return true;
 }
 
-// This function is NOT sock-domain agnostic. I wish I could make it so.
 bool ssock_connect (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -105,7 +106,6 @@ bool ssock_connect (ssock_t *sock) {
   }
 }
 
-// This function is NOT sock-domain agnostic. I wish I could make it so.
 bool ssock_accept (ssock_t *sock) {
   assert(sock != NULL);
 
@@ -114,9 +114,9 @@ bool ssock_accept (ssock_t *sock) {
     an address and address length, but otherwise not. I used to have a switch
     but that looked hideous.
   */
-  struct sockaddr_in *sa =
+  struct sockaddr *sa =
     (sock->domain == AF_INET)
-    ? (struct sockaddr_in *) &sock->settings.address
+    ? &sock->settings.address
     : NULL;
 
   sock->new_socket =
@@ -125,14 +125,12 @@ bool ssock_accept (ssock_t *sock) {
   return sock->new_socket > 0;
 }
 
-// This function is sock-domain agnostic.
 ssize_t ssock_recv (ssock_t *sock) {
   assert(sock != NULL);
 
   return recv(sock->new_socket, sock->buffer, sock->bufsize, 0);
 }
 
-// This function is sock-domain agnostic.
 ssize_t ssock_write (ssock_t *sock, char *msg) {
   assert(sock != NULL);
   assert(msg != NULL);
@@ -140,21 +138,18 @@ ssize_t ssock_write (ssock_t *sock, char *msg) {
   return write(sock->new_socket, msg, strlen(msg));
 }
 
-// This function is sock-domain agnostic.
 ssize_t ssock_client_recv (ssock_t *sock) {
   assert(sock != NULL);
 
   return recv(sock->socket, sock->buffer, sock->bufsize, 0);
 }
 
-// This function is sock-domain agnostic.
 ssize_t ssock_client_write (ssock_t *sock, char *msg) {
   assert(sock != NULL);
 
   return write(sock->socket, msg, strlen(msg));
 }
 
-// This function is sock-domain agnostic.
 void ssock_close (ssock_t *sock, int which) {
   assert(sock != NULL);
 
